@@ -1,3 +1,31 @@
 <resources>
-    <string name="app_name">2025audiorecorderandroidapp</string>
+    <string name="app_name">Audio Recorder</string>
+    <string name="ready_to_record">Ready to Record</string>
+    <string name="recording">Recording...</string>
+    <string name="recording_paused">Recording Paused</string>
+    <string name="start_recording">Start Recording</string>
+    <string name="pause_recording">Pause Recording</string>
+    <string name="resume_recording">Resume Recording</string>
+    <string name="stop_recording">Stop Recording</string>
+    <string name="play_recording">Play Recording</string>
+    <string name="share_recording">Share Recording</string>
+    <string name="delete_recording">Delete Recording</string>
+    <string name="no_recordings">No recordings yet.\nTap the microphone to start recording.</string>
+    <string name="permission_required">Permissions required for recording</string>
+    <string name="recording_saved">Recording saved</string>
+    <string name="recording_deleted">Recording deleted</string>
+    <string name="error_playing">Error playing recording</string>
+    <string name="error_sharing">Error sharing recording</string>
+    <string name="error_deleting">Error deleting recording</string>
+    <string name="delete_confirmation">Are you sure you want to delete this recording?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="playing">Playing: %s</string>
+    <string name="rename_recording">Rename Recording</string>
+    <string name="rename">Rename</string>
+    <string name="new_name">New name</string>
+    <string name="enter_new_name">Enter new name for the recording</string>
+    <string name="error_renaming">Error renaming recording</string>
+    <string name="recording_renamed">Recording renamed</string>
+    <string name="file_info_format">%1$s • %2$s</string>
 </resources>
