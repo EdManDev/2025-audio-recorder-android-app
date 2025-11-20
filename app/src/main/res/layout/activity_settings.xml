@@ -160,7 +160,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/encoding"
+                android:text="Encoding"
+                tools:ignore="HardcodedText"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp" />
 
@@ -190,7 +191,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/audio_channels"
+                android:text="Audio Channels"
+                tools:ignore="HardcodedText"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp" />
 
@@ -220,7 +222,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/filename_format"
+                android:text="Filename Format"
+                tools:ignore="HardcodedText"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp" />
 
@@ -262,7 +265,7 @@
                 android:text="@string/bandpass_voice_filter"
                 android:textSize="16sp" />
 
-            <androidx.appcompat.widget.SwitchCompat
+            <Switch
                 android:id="@+id/switchVoiceFilter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -316,7 +319,7 @@
                 android:textSize="16sp"
                 tools:ignore="HardcodedText" />
 
-            <androidx.appcompat.widget.SwitchCompat
+            <Switch
                 android:id="@+id/switchSkipSilence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -346,10 +349,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/enable_notifications"
+                android:text="Enable Notifications"
+                tools:ignore="HardcodedText"
                 android:textSize="16sp" />
 
-            <androidx.appcompat.widget.SwitchCompat
+            <Switch
                 android:id="@+id/switchNotificationsEnabled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -371,7 +375,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/notification_sound"
+                android:text="Notification Sound"
+                tools:ignore="HardcodedText"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp" />
 
@@ -401,7 +406,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/notification_priority"
+                android:text="Notification Priority"
+                tools:ignore="HardcodedText"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp" />
 
@@ -474,7 +480,7 @@
                 android:textSize="16sp"
                 tools:ignore="HardcodedText" />
 
-            <androidx.appcompat.widget.SwitchCompat
+            <Switch
                 android:id="@+id/switchEncodingOnTheFly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -520,7 +526,7 @@
                 android:textSize="16sp"
                 tools:ignore="HardcodedText" />
 
-            <androidx.appcompat.widget.SwitchCompat
+            <Switch
                 android:id="@+id/switchSilentMode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -543,8 +549,8 @@
                 android:textSize="16sp"
                 tools:ignore="HardcodedText" />
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switchPauseDuringCall"
+            <Switch
+                android:id="@+id/switchLockscreenControls"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -565,7 +571,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/application_theme"
+                android:text="Application Theme"
+                tools:ignore="HardcodedText"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp" />
 
