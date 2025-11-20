@@ -367,6 +367,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="16dp"
+            android:layout_marginStart="15dp"
             android:background="?android:attr/selectableItemBackground"
             android:padding="16dp"
             android:clickable="true"
@@ -398,6 +399,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="16dp"
+            android:layout_marginStart="15dp"
             android:background="?android:attr/selectableItemBackground"
             android:padding="16dp"
             android:clickable="true"
@@ -430,6 +432,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginBottom="16dp"
+            android:layout_marginStart="15dp"
             tools:ignore="HardcodedText" />
 
         <CheckBox
@@ -438,6 +441,7 @@
             android:layout_height="wrap_content"
             android:text="Show Play Action"
             android:layout_marginBottom="8dp"
+            android:layout_marginStart="15dp"
             tools:ignore="HardcodedText" />
 
         <CheckBox
@@ -446,6 +450,7 @@
             android:layout_height="wrap_content"
             android:text="Show Share Action"
             android:layout_marginBottom="8dp"
+            android:layout_marginStart="15dp"
             tools:ignore="HardcodedText" />
 
         <CheckBox
@@ -454,6 +459,7 @@
             android:layout_height="wrap_content"
             android:text="Show Delete Action"
             android:layout_marginBottom="8dp"
+            android:layout_marginStart="15dp"
             tools:ignore="HardcodedText" />
 
         <CheckBox
@@ -462,6 +468,7 @@
             android:layout_height="wrap_content"
             android:text="Show Open App Action"
             android:layout_marginBottom="16dp"
+            android:layout_marginStart="15dp"
             tools:ignore="HardcodedText" />
 
         <!-- Encoding on the Fly -->
@@ -470,6 +477,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="16dp"
+            android:layout_marginStart="15dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -493,6 +501,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="16dp"
+            android:layout_marginStart="15dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -516,6 +525,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="16dp"
+            android:layout_marginStart="15dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -539,6 +549,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="16dp"
+            android:layout_marginStart="15dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -563,6 +574,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="16dp"
+            android:layout_marginStart="15dp"
             android:background="?android:attr/selectableItemBackground"
             android:padding="16dp"
             android:clickable="true"
