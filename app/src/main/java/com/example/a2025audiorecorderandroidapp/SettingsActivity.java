@@ -2,7 +2,7 @@ package com.example.a2025audiorecorderandroidapp;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Switch;
+import androidx.appcompat.widget.SwitchCompat;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -21,7 +21,7 @@ import androidx.preference.PreferenceManager;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private Switch switchNotificationsEnabled;
+    private SwitchCompat switchNotificationsEnabled;
     private LinearLayout layoutNotificationSound;
     private TextView textViewCurrentNotificationSound;
     private LinearLayout layoutNotificationPriority;
@@ -44,14 +44,14 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView textViewCurrentAudioChannels;
     private LinearLayout layoutFilenameFormat;
     private TextView textViewCurrentFilenameFormat;
-    private Switch switchVoiceFilter;
+    private SwitchCompat switchVoiceFilter;
     private LinearLayout layoutRecordingVolume;
     private TextView textViewCurrentRecordingVolume;
-    private Switch switchSkipSilence;
-    private Switch switchEncodingOnTheFly;
-    private Switch switchPauseDuringCall;
-    private Switch switchSilentMode;
-    private Switch switchLockscreenControls;
+    private SwitchCompat switchSkipSilence;
+    private SwitchCompat switchEncodingOnTheFly;
+    private SwitchCompat switchPauseDuringCall;
+    private SwitchCompat switchSilentMode;
+    private SwitchCompat switchLockscreenControls;
     private LinearLayout layoutApplicationTheme;
     private TextView textViewCurrentApplicationTheme;
 
