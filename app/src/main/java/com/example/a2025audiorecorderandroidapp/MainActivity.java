@@ -746,10 +746,10 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
                 comparator = Comparator.comparingLong(Recording::getFileSize);
                 break;
             case 6: // Duration (Longest First)
-                comparator = Comparator.comparingInt(Recording::getDuration).reversed();
+                comparator = Comparator.comparingLong(Recording::getDuration).reversed();
                 break;
             case 7: // Duration (Shortest First)
-                comparator = Comparator.comparingInt(Recording::getDuration);
+                comparator = Comparator.comparingLong(Recording::getDuration);
                 break;
             default:
                 comparator = Comparator.comparingLong(Recording::getTimestamp).reversed();
