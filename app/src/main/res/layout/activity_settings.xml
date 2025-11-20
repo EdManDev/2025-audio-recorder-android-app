@@ -48,7 +48,7 @@
                 android:text="/storage/emulated/0/Android/data/com.github.axet.audiorecorder/files"
                 android:textSize="14sp"
                 android:textColor="?android:attr/textColorSecondary"
-                tools:ignore="HardcodedText" />
+                tools:ignore="Typos" />
 
         </LinearLayout>
 
@@ -160,7 +160,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Encoding"
+                android:text="@string/encoding"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp" />
 
@@ -190,7 +190,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Audio Channels"
+                android:text="@string/audio_channels"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp" />
 
@@ -220,7 +220,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filename Format"
+                android:text="@string/filename_format"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp" />
 
@@ -246,6 +246,94 @@
             android:textColor="?android:attr/textColorPrimary"
             tools:ignore="HardcodedText" />
 
+        <!-- Voice Filter -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="32dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/bandpass_voice_filter"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchVoiceFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <!-- Recording Volume -->
+        <LinearLayout
+            android:id="@+id/layoutRecordingVolume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="16dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recording Volume"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/textViewCurrentRecordingVolume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100%"
+                android:textSize="14sp"
+                android:textColor="?android:attr/textColorSecondary"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <!-- Skip Silence -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Skip Silence while recording"
+                android:textSize="16sp"
+                tools:ignore="HardcodedText" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchSkipSilence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <!-- APPLICATION Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="APPLICATION"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:textColor="?android:attr/textColorPrimary"
+            tools:ignore="HardcodedText" />
+
         <!-- Notifications Enabled -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -258,10 +346,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Enable Notifications"
+                android:text="@string/enable_notifications"
                 android:textSize="16sp" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchNotificationsEnabled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -283,7 +371,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Notification Sound"
+                android:text="@string/notification_sound"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp" />
 
@@ -313,7 +401,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Notification Priority"
+                android:text="@string/notification_priority"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp" />
 
@@ -386,7 +474,7 @@
                 android:textSize="16sp"
                 tools:ignore="HardcodedText" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchEncodingOnTheFly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -409,7 +497,7 @@
                 android:textSize="16sp"
                 tools:ignore="HardcodedText" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchPauseDuringCall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -432,7 +520,7 @@
                 android:textSize="16sp"
                 tools:ignore="HardcodedText" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchSilentMode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -455,8 +543,8 @@
                 android:textSize="16sp"
                 tools:ignore="HardcodedText" />
 
-            <Switch
-                android:id="@+id/switchLockscreenControls"
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchPauseDuringCall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -477,7 +565,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Application Theme"
+                android:text="@string/application_theme"
                 android:textSize="16sp"
                 android:layout_marginBottom="4dp" />
 
