@@ -88,6 +88,13 @@
     <string name="recording_source_warning_internal">Recording internal audio may require additional permissions and may not work on all devices.</string>
     <string name="recording_source_warning_bluetooth">Recording from Bluetooth may require pairing and may not work on all devices.</string>
     <string name="bandpass_voice_filter">Bandpass Voice Filter</string>
+    <string name="encoding">Encoding</string>
+    <string name="audio_channels">Audio Channels</string>
+    <string name="filename_format">Filename Format</string>
+    <string name="enable_notifications">Enable Notifications</string>
+    <string name="notification_sound">Notification Sound</string>
+    <string name="notification_priority">Notification Priority</string>
+    <string name="application_theme">Application Theme</string>
 
     <string-array name="application_theme_options">
         <item>Theme White</item>
