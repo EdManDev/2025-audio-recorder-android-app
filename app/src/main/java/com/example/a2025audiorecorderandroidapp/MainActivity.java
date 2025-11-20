@@ -34,7 +34,7 @@ import com.example.a2025audiorecorderandroidapp.model.Recording;
 import com.example.a2025audiorecorderandroidapp.service.RecordingService;
 import com.example.a2025audiorecorderandroidapp.utils.FileUtils;
 import com.example.a2025audiorecorderandroidapp.utils.PermissionUtils;
-import com.example.a2025audiorecorderandroidapp.utils.WaveformView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
     private TextView recordingStatus, recordingTimer, emptyMessage;
     private RecyclerView recordingsList;
     private RecordingsAdapter adapter;
-    private WaveformView waveformView;
     private List<Recording> allRecordings = new ArrayList<>();
 
     private RecordingService recordingService;
@@ -122,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
         recordingTimer = findViewById(R.id.recordingTimer);
         recordingsList = findViewById(R.id.recordingsList);
         emptyMessage = findViewById(R.id.emptyMessage);
-        waveformView = findViewById(R.id.waveformView);
     }
 
     private void setupRecyclerView() {
@@ -212,7 +210,6 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
             btnStop.setVisibility(isRecording ? View.VISIBLE : View.GONE);
 
             if (isRecording) {
-                waveformView.setVisibility(View.VISIBLE);
                 if (isPaused) {
                     recordingStatus.setText("Recording Paused");
                     btnPause.setImageResource(android.R.drawable.ic_media_play);
@@ -225,8 +222,6 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
             } else {
                 recordingStatus.setText("Ready to Record");
                 recordingTimer.setText("00:00");
-                waveformView.setVisibility(View.GONE);
-                waveformView.clear();
                 stopTimer();
             }
         } else {
@@ -235,8 +230,6 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
             btnStop.setVisibility(View.GONE);
             recordingStatus.setText("Ready to Record");
             recordingTimer.setText("00:00");
-            waveformView.setVisibility(View.GONE);
-            waveformView.clear();
             stopTimer();
         }
     }
@@ -248,12 +241,7 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
                 if (serviceBound && recordingService != null) {
                     long duration = recordingService.getRecordingDuration();
                     recordingTimer.setText(FileUtils.formatDuration(duration));
-                    
-                    // Animate waveform during recording
-                    if (recordingService.isRecording() && !recordingService.isPaused()) {
-                        waveformView.simulateAmplitude();
-                    }
-                    
+
                     timerHandler.postDelayed(this, 200);
                 }
             }
@@ -293,6 +281,9 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
                 allRecordings.add(recording);
             }
         }
+
+        // Ensure recordings are sorted by timestamp (newest first)
+        allRecordings.sort((r1, r2) -> Long.compare(r2.getTimestamp(), r1.getTimestamp()));
 
         filterRecordings("");
         updateEmptyState();
@@ -793,6 +784,8 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
             // Add small delay to ensure file is completely written
             new Handler().postDelayed(() -> {
                 loadRecordings();
+                // Scroll to top to show the latest recording
+                recordingsList.scrollToPosition(0);
                 Toast.makeText(this, "Recording saved", Toast.LENGTH_SHORT).show();
             }, 100);
         });

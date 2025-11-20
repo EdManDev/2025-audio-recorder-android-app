@@ -39,13 +39,7 @@
             android:textSize="46sp"
             tools:text="00:00" />
 
-        <com.example.a2025audiorecorderandroidapp.utils.WaveformView
-            android:id="@+id/waveformView"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_marginHorizontal="32dp"
-            android:layout_marginBottom="32dp"
-            android:visibility="gone" />
+
 
         <LinearLayout
             android:layout_width="wrap_content"

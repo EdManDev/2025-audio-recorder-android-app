@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.app.AlertDialog;
+import android.view.MenuItem;
 import android.content.Intent;
 import android.net.Uri;
 import androidx.activity.result.ActivityResultLauncher;
@@ -63,6 +64,12 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        // Enable back button in action bar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Settings");
+        }
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -466,5 +473,14 @@ public class SettingsActivity extends AppCompatActivity {
                 .setPositiveButton("OK", (dialog, which) -> onConfirm.run())
                 .setNegativeButton("Cancel", null)
                 .show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // Close the activity and go back
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
