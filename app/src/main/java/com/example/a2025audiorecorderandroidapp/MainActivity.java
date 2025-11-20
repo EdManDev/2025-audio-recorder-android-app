@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
 
     private RecordingService recordingService;
     private boolean serviceBound = false;
+    private boolean isCancelling = false;
     private Handler timerHandler = new Handler();
     private Runnable timerRunnable;
 
@@ -180,15 +181,27 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
     }
 
     private void startRecording() {
-        if (serviceBound && recordingService != null) {
+        Intent serviceIntent = new Intent(this, RecordingService.class);
+        serviceIntent.setAction(RecordingService.ACTION_START_RECORDING);
+        startForegroundService(serviceIntent);
+
+        if (!serviceBound) {
+            bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+        } else if (recordingService != null) {
             recordingService.startRecording();
         }
     }
 
     private void cancelRecording() {
         if (serviceBound && recordingService != null) {
+            isCancelling = true;
+            // Tell the service we're cancelling (no notification should be shown)
+            recordingService.setCancelling(true);
             // Stop the recording service
             recordingService.stopRecording();
+
+            // Show cancellation toast immediately
+            Toast.makeText(this, "Recording cancelled", Toast.LENGTH_SHORT).show();
 
             // Delete the recording file if it exists
             if (currentRecordingPath != null) {
@@ -196,27 +209,17 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
                     File currentFile = new File(currentRecordingPath);
                     if (currentFile.exists()) {
                         boolean deleted = currentFile.delete();
-                        if (deleted) {
-                            Toast.makeText(this, "Recording cancelled", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(this, "Failed to delete recording", Toast.LENGTH_SHORT).show();
+                        if (!deleted) {
+                            Toast.makeText(this, "Failed to delete recording file", Toast.LENGTH_SHORT).show();
                         }
                     }
                 } catch (Exception e) {
-                    Toast.makeText(this, "Error cancelling recording", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Error deleting recording file", Toast.LENGTH_SHORT).show();
                 }
             }
             // Clear the current recording path
             currentRecordingPath = null;
-        }
-    }
-
-        Intent serviceIntent = new Intent(this, RecordingService.class);
-        serviceIntent.setAction(RecordingService.ACTION_START_RECORDING);
-        startForegroundService(serviceIntent);
-
-        if (!serviceBound) {
-            bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+            isCancelling = false; // Reset the flag
         }
     }
 
@@ -817,13 +820,28 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
     public void onRecordingStopped(String filePath, long duration) {
         runOnUiThread(() -> {
             updateUI();
-            // Add small delay to ensure file is completely written
-            new Handler().postDelayed(() -> {
-                loadRecordings();
-                // Scroll to top to show the latest recording
-                recordingsList.scrollToPosition(0);
-                Toast.makeText(this, "Recording saved", Toast.LENGTH_SHORT).show();
-            }, 100);
+            if (!isCancelling) {
+                // Add the new recording directly to the list instead of reloading all
+                File recordingFile = new File(filePath);
+                if (recordingFile.exists()) {
+                    Recording newRecording = new Recording(recordingFile);
+                    newRecording.setDuration(duration);
+                    allRecordings.add(0, newRecording); // Add at the beginning (newest first)
+                    filterRecordings("");
+                    updateEmptyState();
+                    // Scroll to top to show the latest recording
+                    recordingsList.scrollToPosition(0);
+                    Toast.makeText(this, "Recording saved", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Fallback: reload all recordings if file doesn't exist yet
+                    new Handler().postDelayed(() -> {
+                        loadRecordings();
+                        recordingsList.scrollToPosition(0);
+                        Toast.makeText(this, "Recording saved", Toast.LENGTH_SHORT).show();
+                    }, 200);
+                }
+            }
+            isCancelling = false; // Reset the flag
         });
         // Clear the current recording path
         currentRecordingPath = null;

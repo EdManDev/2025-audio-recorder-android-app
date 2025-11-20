@@ -49,6 +49,7 @@ public class RecordingService extends Service {
     private long pausedTime = 0;
     private boolean batteryWarningShown = false;
     private boolean timeLimitWarningShown = false;
+    private boolean isCancelling = false;
 
     private final IBinder binder = new RecordingBinder();
     private Handler notificationHandler;
@@ -108,6 +109,10 @@ public class RecordingService extends Service {
 
     public void setRecordingListener(RecordingListener listener) {
         this.recordingListener = listener;
+    }
+
+    public void setCancelling(boolean cancelling) {
+        this.isCancelling = cancelling;
     }
 
     public void startRecording() {
@@ -195,8 +200,13 @@ public class RecordingService extends Service {
             
             Log.d(TAG, "Recording stopped: " + currentRecordingFile.getAbsolutePath());
 
-            // Show post-recording notification
-            showPostRecordingNotification(currentRecordingFile, duration);
+            // Show post-recording notification only if not cancelling
+            if (!isCancelling) {
+                showPostRecordingNotification(currentRecordingFile, duration);
+            }
+
+            // Reset the cancelling flag
+            isCancelling = false;
 
         } catch (RuntimeException e) {
             Log.e(TAG, "Failed to stop recording", e);
