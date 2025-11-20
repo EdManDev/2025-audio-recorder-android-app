@@ -39,4 +39,59 @@
         <item>Normal</item>
         <item>High</item>
     </string-array>
+
+    <string-array name="audio_format_options">
+        <item>8-bit PCM</item>
+        <item>16-bit PCM</item>
+        <item>24-bit PCM (float)</item>
+    </string-array>
+
+    <string-array name="recording_source_options">
+        <item>Mic</item>
+        <item>Bluetooth</item>
+        <item>Internal Audio</item>
+        <item>Camcorder</item>
+        <item>Voice Communication</item>
+        <item>Voice Recognition</item>
+    </string-array>
+
+    <string-array name="sample_rate_options">
+        <item>8 kHz</item>
+        <item>16 kHz</item>
+        <item>22.05 kHz</item>
+        <item>44.1 kHz</item>
+        <item>48 kHz</item>
+    </string-array>
+
+    <string-array name="encoding_options">
+        <item>.ogg (Vorbis)</item>
+        <item>.mp3</item>
+        <item>.wav</item>
+        <item>.m4a</item>
+        <item>.flac</item>
+    </string-array>
+
+    <string-array name="audio_channels_options">
+        <item>Mono</item>
+        <item>Stereo</item>
+    </string-array>
+
+    <string-array name="filename_format_options">
+        <item>2025-11-20 08.09.09.ogg (Human-readable with spaces)</item>
+        <item>1763644149.ogg (Unix timestamp)</item>
+        <item>20251120T080909.ogg (ISO 8601 basic format)</item>
+        <item>20251120T130909Z.ogg (ISO 8601 UTC format)</item>
+    </string-array>
+
+    <string name="filename_format_title">Filename Format</string>
+    <string name="recording_source_warning_title">Warning</string>
+    <string name="recording_source_warning_internal">Recording internal audio may require additional permissions and may not work on all devices.</string>
+    <string name="recording_source_warning_bluetooth">Recording from Bluetooth may require pairing and may not work on all devices.</string>
+    <string name="bandpass_voice_filter">Bandpass Voice Filter</string>
+
+    <string-array name="application_theme_options">
+        <item>Theme White</item>
+        <item>Theme Dark</item>
+        <item>System Default</item>
+    </string-array>
 </resources>
