@@ -687,12 +687,86 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
 
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        if (item.getItemId() == R.id.action_settings) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
+        } else if (itemId == R.id.action_sort_by) {
+            showSortByDialog();
+            return true;
+        } else if (itemId == R.id.action_about) {
+            showAboutDialog();
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showSortByDialog() {
+        String[] sortOptions = {
+            "Date (Newest First)",
+            "Date (Oldest First)",
+            "Name (A-Z)",
+            "Name (Z-A)",
+            "Size (Largest First)",
+            "Size (Smallest First)",
+            "Duration (Longest First)",
+            "Duration (Shortest First)"
+        };
+
+        new AlertDialog.Builder(this)
+            .setTitle("Sort Recordings By")
+            .setItems(sortOptions, (dialog, which) -> {
+                sortRecordings(which);
+            })
+            .setNegativeButton("Cancel", null)
+            .show();
+    }
+
+    private void sortRecordings(int sortOption) {
+        Comparator<Recording> comparator;
+
+        switch (sortOption) {
+            case 0: // Date (Newest First)
+                comparator = Comparator.comparingLong(Recording::getTimestamp).reversed();
+                break;
+            case 1: // Date (Oldest First)
+                comparator = Comparator.comparingLong(Recording::getTimestamp);
+                break;
+            case 2: // Name (A-Z)
+                comparator = Comparator.comparing(Recording::getFileName);
+                break;
+            case 3: // Name (Z-A)
+                comparator = Comparator.comparing(Recording::getFileName).reversed();
+                break;
+            case 4: // Size (Largest First)
+                comparator = Comparator.comparingLong(Recording::getFileSize).reversed();
+                break;
+            case 5: // Size (Smallest First)
+                comparator = Comparator.comparingLong(Recording::getFileSize);
+                break;
+            case 6: // Duration (Longest First)
+                comparator = Comparator.comparingInt(Recording::getDuration).reversed();
+                break;
+            case 7: // Duration (Shortest First)
+                comparator = Comparator.comparingInt(Recording::getDuration);
+                break;
+            default:
+                comparator = Comparator.comparingLong(Recording::getTimestamp).reversed();
+                break;
+        }
+
+        allRecordings.sort(comparator);
+        adapter.setRecordings(new ArrayList<>(allRecordings));
+        Toast.makeText(this, "Recordings sorted", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showAboutDialog() {
+        new AlertDialog.Builder(this)
+            .setTitle("About Audio Recorder")
+            .setMessage("Audio Recorder App v1.0\n\nA comprehensive audio recording application with advanced features:\n\n• High-quality audio recording\n• Real-time waveform visualization\n• Background recording with notifications\n• Recording management and search\n• Customizable settings\n\nDeveloped with ❤️ using Android")
+            .setPositiveButton("OK", null)
+            .show();
     }
 
     @Override
