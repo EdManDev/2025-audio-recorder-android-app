@@ -17,6 +17,7 @@ import android.net.Uri;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -175,6 +176,7 @@ public class SettingsActivity extends AppCompatActivity {
         int applicationThemeIndex = preferences.getInt("application_theme", 0); // Default to Theme White
         String[] applicationThemes = getResources().getStringArray(R.array.application_theme_options);
         textViewCurrentApplicationTheme.setText(applicationThemes[applicationThemeIndex]);
+        applyApplicationTheme(applicationThemeIndex);
     }
 
     private void setupListeners() {
@@ -432,10 +434,29 @@ public class SettingsActivity extends AppCompatActivity {
                 .setSingleChoiceItems(applicationThemes, currentSelection, (dialog, which) -> {
                     saveSetting("application_theme", which);
                     textViewCurrentApplicationTheme.setText(applicationThemes[which]);
+                    applyApplicationTheme(which);
+                    recreate(); // Recreate activity to apply theme
                     dialog.dismiss();
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
+    }
+
+    private void applyApplicationTheme(int themeIndex) {
+        int nightMode;
+        switch (themeIndex) {
+            case 0: // Theme White
+                nightMode = AppCompatDelegate.MODE_NIGHT_NO;
+                break;
+            case 1: // Theme Dark
+                nightMode = AppCompatDelegate.MODE_NIGHT_YES;
+                break;
+            case 2: // System Default
+            default:
+                nightMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                break;
+        }
+        AppCompatDelegate.setDefaultNightMode(nightMode);
     }
 
     private void showWarningDialog(String message, Runnable onConfirm) {
