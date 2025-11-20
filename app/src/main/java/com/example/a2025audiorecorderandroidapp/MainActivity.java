@@ -46,11 +46,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RecordingService.RecordingListener {
 
-    private FloatingActionButton btnRecord, btnPause, btnStop;
+    private FloatingActionButton btnRecord, btnPause, btnStop, btnCancel;
     private TextView recordingStatus, recordingTimer, emptyMessage;
     private RecyclerView recordingsList;
     private RecordingsAdapter adapter;
     private List<Recording> allRecordings = new ArrayList<>();
+    private String currentRecordingPath;
 
     private RecordingService recordingService;
     private boolean serviceBound = false;
@@ -117,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
         btnRecord = findViewById(R.id.btnRecord);
         btnPause = findViewById(R.id.btnPause);
         btnStop = findViewById(R.id.btnStop);
+        btnCancel = findViewById(R.id.btnCancel);
         recordingStatus = findViewById(R.id.recordingStatus);
         recordingTimer = findViewById(R.id.recordingTimer);
         recordingsList = findViewById(R.id.recordingsList);
@@ -169,14 +171,45 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
                 recordingService.stopRecording();
             }
         });
+
+        btnCancel.setOnClickListener(v -> {
+            if (serviceBound && recordingService != null) {
+                cancelRecording();
+            }
+        });
     }
 
     private void startRecording() {
-        // Check available storage
-        if (!hasEnoughStorage()) {
-            Toast.makeText(this, "Not enough storage space. Please free up space before recording.", Toast.LENGTH_LONG).show();
-            return;
+        if (serviceBound && recordingService != null) {
+            recordingService.startRecording();
         }
+    }
+
+    private void cancelRecording() {
+        if (serviceBound && recordingService != null) {
+            // Stop the recording service
+            recordingService.stopRecording();
+
+            // Delete the recording file if it exists
+            if (currentRecordingPath != null) {
+                try {
+                    File currentFile = new File(currentRecordingPath);
+                    if (currentFile.exists()) {
+                        boolean deleted = currentFile.delete();
+                        if (deleted) {
+                            Toast.makeText(this, "Recording cancelled", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Failed to delete recording", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(this, "Error cancelling recording", Toast.LENGTH_SHORT).show();
+                }
+            }
+            // Clear the current recording path
+            currentRecordingPath = null;
+        }
+    }
 
         Intent serviceIntent = new Intent(this, RecordingService.class);
         serviceIntent.setAction(RecordingService.ACTION_START_RECORDING);
@@ -208,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
             btnRecord.setVisibility(isRecording ? View.GONE : View.VISIBLE);
             btnPause.setVisibility(isRecording ? View.VISIBLE : View.GONE);
             btnStop.setVisibility(isRecording ? View.VISIBLE : View.GONE);
+            btnCancel.setVisibility(isRecording ? View.VISIBLE : View.GONE);
 
             if (isRecording) {
                 if (isPaused) {
@@ -228,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
             btnRecord.setVisibility(View.VISIBLE);
             btnPause.setVisibility(View.GONE);
             btnStop.setVisibility(View.GONE);
+            btnCancel.setVisibility(View.GONE);
             recordingStatus.setText("Ready to Record");
             recordingTimer.setText("00:00");
             stopTimer();
@@ -774,6 +809,7 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
     // RecordingService.RecordingListener implementation
     @Override
     public void onRecordingStarted(String filePath) {
+        currentRecordingPath = filePath;
         runOnUiThread(this::updateUI);
     }
 
@@ -789,6 +825,8 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
                 Toast.makeText(this, "Recording saved", Toast.LENGTH_SHORT).show();
             }, 100);
         });
+        // Clear the current recording path
+        currentRecordingPath = null;
     }
 
     @Override
