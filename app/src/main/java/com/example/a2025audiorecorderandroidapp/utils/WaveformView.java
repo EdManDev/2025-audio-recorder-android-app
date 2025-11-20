@@ -81,6 +81,11 @@ public class WaveformView extends View {
         invalidate();
     }
 
+    public void simulateAmplitude() {
+        float amplitude = (float) (Math.random() * 0.8f + 0.2f);
+        addAmplitude(amplitude);
+    }
+
     public void setMaxAmplitudes(int max) {
         this.maxAmplitudes = max;
         while (amplitudes.size() > maxAmplitudes) {
