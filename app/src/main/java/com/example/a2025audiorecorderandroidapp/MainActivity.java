@@ -10,15 +10,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.StatFs;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
+
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
     private RecyclerView recordingsList;
     private RecordingsAdapter adapter;
     private WaveformView waveformView;
+    private List<Recording> allRecordings = new ArrayList<>();
 
     private RecordingService recordingService;
     private boolean serviceBound = false;
@@ -94,11 +101,17 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Ensure action bar is shown
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Audio Recorder");
+        }
+
         initViews();
         setupRecyclerView();
         setupClickListeners();
         loadRecordings();
         updateEmptyState();
+        handleIntent(getIntent());
     }
 
     private void initViews() {
@@ -161,12 +174,31 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
     }
 
     private void startRecording() {
+        // Check available storage
+        if (!hasEnoughStorage()) {
+            Toast.makeText(this, "Not enough storage space. Please free up space before recording.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         Intent serviceIntent = new Intent(this, RecordingService.class);
         serviceIntent.setAction(RecordingService.ACTION_START_RECORDING);
         startForegroundService(serviceIntent);
-        
+
         if (!serviceBound) {
             bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+        }
+    }
+
+    private boolean hasEnoughStorage() {
+        try {
+            File recordingsDir = FileUtils.getRecordingsDirectory(this);
+            StatFs stat = new StatFs(recordingsDir.getPath());
+            long availableBytes = stat.getAvailableBytes();
+            // Require at least 10MB free space
+            return availableBytes > 10 * 1024 * 1024;
+        } catch (Exception e) {
+            // If we can't check, assume it's OK
+            return true;
         }
     }
 
@@ -238,10 +270,10 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
 
     private void loadRecordings() {
         File recordingsDir = FileUtils.getRecordingsDirectory(this);
-        File[] files = recordingsDir.listFiles((dir, name) -> 
+        File[] files = recordingsDir.listFiles((dir, name) ->
             name.toLowerCase().endsWith(FileUtils.AUDIO_FILE_EXTENSION));
 
-        List<Recording> recordings = new ArrayList<>();
+        allRecordings.clear();
         if (files != null) {
             Arrays.sort(files, Comparator.comparingLong(File::lastModified).reversed());
             for (File file : files) {
@@ -258,12 +290,24 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
                     // If we can't get duration, use 0
                     recording.setDuration(0);
                 }
-                recordings.add(recording);
+                allRecordings.add(recording);
             }
         }
 
-        adapter.setRecordings(recordings);
+        filterRecordings("");
         updateEmptyState();
+    }
+
+
+
+    private void filterRecordings(String query) {
+        List<Recording> filteredRecordings = new ArrayList<>();
+        for (Recording recording : allRecordings) {
+            if (recording.getFileName().toLowerCase().contains(query.toLowerCase())) {
+                filteredRecordings.add(recording);
+            }
+        }
+        adapter.setRecordings(filteredRecordings);
     }
 
     private void updateEmptyState() {
@@ -565,6 +609,90 @@ public class MainActivity extends AppCompatActivity implements RecordingService.
             unbindService(serviceConnection);
             serviceBound = false;
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (intent != null && intent.getAction() != null) {
+            String action = intent.getAction();
+            String filePath = intent.getStringExtra("file_path");
+
+            if (filePath != null) {
+                Recording recording = findRecordingByPath(filePath);
+                if (recording != null) {
+                    switch (action) {
+                        case "PLAY_RECORDING":
+                            handlePlayPauseClick(recording);
+                            break;
+                        case "SHARE_RECORDING":
+                            shareRecording(recording);
+                            break;
+                        case "DELETE_RECORDING":
+                            showDeleteConfirmation(recording);
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    private Recording findRecordingByPath(String filePath) {
+        for (Recording recording : adapter.getRecordings()) {
+            if (recording.getFilePath().equals(filePath)) {
+                return recording;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        // Configure the search menu item
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("Search recordings...");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterRecordings(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterRecordings(newText);
+                return true;
+            }
+        });
+
+        // Handle search close
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                filterRecordings("");
+                return false;
+            }
+        });
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

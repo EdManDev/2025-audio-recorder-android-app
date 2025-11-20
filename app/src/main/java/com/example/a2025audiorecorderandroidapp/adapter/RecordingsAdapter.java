@@ -96,6 +96,10 @@ public class RecordingsAdapter extends RecyclerView.Adapter<RecordingsAdapter.Re
         return recordings.size();
     }
 
+    public List<Recording> getRecordings() {
+        return new ArrayList<>(recordings);
+    }
+
     public static class RecordingViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvFileName;
         private final TextView tvDuration;

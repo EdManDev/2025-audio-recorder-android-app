@@ -28,4 +28,15 @@
     <string name="error_renaming">Error renaming recording</string>
     <string name="recording_renamed">Recording renamed</string>
     <string name="file_info_format">%1$s • %2$s</string>
+
+    <string-array name="notification_sound_options">
+        <item>Default</item>
+        <item>Silent</item>
+    </string-array>
+
+    <string-array name="notification_priority_options">
+        <item>Low</item>
+        <item>Normal</item>
+        <item>High</item>
+    </string-array>
 </resources>

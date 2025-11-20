@@ -8,6 +8,8 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
+
+
     <LinearLayout
         android:id="@+id/recordingControls"
         android:layout_width="match_parent"
@@ -25,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="@string/ready_to_record"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -34,7 +36,7 @@
             android:layout_height="53dp"
             android:layout_marginBottom="16dp"
             android:fontFamily="monospace"
-            android:textSize="48sp"
+            android:textSize="46sp"
             tools:text="00:00" />
 
         <com.example.a2025audiorecorderandroidapp.utils.WaveformView

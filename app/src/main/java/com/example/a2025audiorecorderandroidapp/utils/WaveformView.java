@@ -35,7 +35,7 @@ public class WaveformView extends View {
     
     private void init() {
         paint = new Paint();
-        paint.setColor(ContextCompat.getColor(getContext(), android.R.color.holo_blue_bright));
+        paint.setColor(ContextCompat.getColor(getContext(), R.color.waveform_blue));
         paint.setStrokeWidth(4f);
         paint.setStrokeCap(Paint.Cap.ROUND);
         amplitudes = new ArrayList<>();
