@@ -43,4 +43,4 @@ The application requires the following permissions, which are declared in the `A
 |                                                        |                                                        |                                                        |
 | :----------------------------------------------------: | :----------------------------------------------------: | :----------------------------------------------------: |
 | <img width="1604" alt=" -:-" src="screenshots/1.jpg">  | <img width="1604" alt=" -:-" src="screenshots/2.jpg">  | <img width="1604" alt=" -:-" src="screenshots/3.jpg">  |
-| <img width="1604" alt=" -:-" src="screenshots/4.jpg">  | <img width="1604" alt=" -:-" src="screenshots/5.jpg">  | <img width="1604" alt=" -:-" src="screenshots/6.jpg">  |
+| <img width="1604" alt=" -:-" src="screenshots/4.jpg">  | <img width="1604" alt=" -:-" src="screenshots/5.png">  | <img width="1604" alt=" -:-" src="screenshots/6.png">  |
